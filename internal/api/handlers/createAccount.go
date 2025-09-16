@@ -8,7 +8,7 @@ import (
 )
 
 type accountResponseError struct {
-	Error string
+	Error error
 }
 
 type accountResponseSuccess struct {
@@ -20,13 +20,13 @@ func CreateAccount(r *gin.Context) {
 	var data repositories.AccountRequest
 
 	if err := r.ShouldBindJSON(&data); err != nil {
-		r.JSON(400, accountResponseError{Error: err.Error()})
+		r.JSON(400, accountResponseError{Error: err})
 		return
 	}
 
 	result, err := services.CreateAccount(data)
 	if err != nil {
-		r.JSON(400, accountResponseError{Error: err.Error()})
+		r.JSON(400, accountResponseError{Error: err})
 		return
 	}
 
