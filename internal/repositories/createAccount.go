@@ -6,35 +6,38 @@ import (
 )
 
 type AccountRequest struct {
-	Login    string `json:"login"`
-	Password string `json:"password"`
 	Email    string `json:"email"`
+	Password string `json:"password"`
 	Name     string `json:"name"`
 }
 
-type AccountRepositorieSuccess struct {
+type AccountResponseSuccess struct {
 	Message string
 }
 
 // Fazer logica pra salvar imagem localmente
 // Referente ao usuario
 
-func CreateAccount(data AccountRequest) (AccountRepositorieSuccess, error) {
+func CreateAccount(data AccountRequest) (AccountResponseSuccess, error) {
 
 	db, err := db.Conn()
 	if err != nil {
-		return AccountRepositorieSuccess{}, err
+		return AccountResponseSuccess{}, err
 	}
 
-	password, _ := lib.HashPassword(data.Password)
+	password, err := lib.HashPassword(data.Password)
+	if err != nil {
+		return AccountResponseSuccess{}, err
+	}
 
-	_, err = db.Exec("INSERT INTO accounts (status, login, password, email, name, id_group, image) VALUES (?,?,?,?,?,?,?)",
-		1, data.Login, password, data.Email, data.Name, 2, "no_image")
+	_, err = db.Exec("INSERT INTO accounts (status, email, password, , name, id_group, image) VALUES (?,?,?,?,?,?)",
+		1, data.Email, password, data.Name, 2, "no_image")
 
 	if err != nil {
-		return AccountRepositorieSuccess{}, err
+		return AccountResponseSuccess{}, err
 	}
 
-	return AccountRepositorieSuccess{Message: "Conta criada com Sucesso"}, nil
+	defer db.Close()
+	return AccountResponseSuccess{Message: "Conta criada com Sucesso"}, nil
 
 }

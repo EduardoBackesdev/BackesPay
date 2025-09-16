@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -28,7 +29,7 @@ func Conn() (*sql.DB, error) {
 	// Get a database handle.
 	db, err := sql.Open("mysql", cfg.FormatDSN())
 	if err != nil {
-		return nil, err
+		return nil, errors.New("Falha ao abrir conexão!")
 	}
 
 	pingErr := db.Ping()

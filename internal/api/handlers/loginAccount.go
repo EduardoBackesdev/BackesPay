@@ -1,7 +1,23 @@
 package handlers
 
-import "github.com/gin-gonic/gin"
+import (
+	"main/internal/api/services"
+	"main/internal/repositories"
+
+	"github.com/gin-gonic/gin"
+)
+
+type loginErrorResponse struct {
+	Message string
+}
 
 func LoginAccount(c *gin.Context) {
-	return
+	var data repositories.LoginRequest
+
+	if err := c.ShouldBindJSON(&data); err != nil {
+		c.JSON(400, loginErrorResponse{Message: err.Error()})
+		return
+	}
+
+	result, err := services.LoginAccount(data)
 }
