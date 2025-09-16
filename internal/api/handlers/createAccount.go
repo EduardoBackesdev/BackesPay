@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"main/internal/api/services"
+	"main/internal/repositories"
 
 	"github.com/gin-gonic/gin"
 )
@@ -16,7 +17,7 @@ type accountResponseSuccess struct {
 
 func CreateAccount(r *gin.Context) {
 
-	var data services.AccountRequest
+	var data repositories.AccountRequest
 
 	if err := r.ShouldBindJSON(&data); err != nil {
 		r.JSON(400, accountResponseError{Error: err.Error()})
