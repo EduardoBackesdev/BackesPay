@@ -20,4 +20,11 @@ func LoginAccount(c *gin.Context) {
 	}
 
 	result, err := services.LoginAccount(data)
+	if err != nil {
+		c.JSON(400, loginErrorResponse{Message: err.Error()})
+		return
+	}
+
+	c.JSON(200, result)
+	return
 }

@@ -1,13 +1,22 @@
 package lib
 
 import (
+	"errors"
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/joho/godotenv"
 )
 
-var secretKey = []byte("secret-key")
+func getSecretKey() ([]byte, error) {
+	if err := godotenv.Load("../../.env"); err != nil {
+		return nil, errors.New("Fail get secret key")
+	}
+	var secret = []byte(os.Getenv("JWT"))
+	return secret, nil
+}
 
 func CreateToken(username string) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256,
@@ -15,8 +24,11 @@ func CreateToken(username string) (string, error) {
 			"username": username,
 			"exp":      time.Now().Add(time.Hour * 24).Unix(),
 		})
-
-	tokenString, err := token.SignedString(secretKey)
+	result, err := getSecretKey()
+	if err != nil {
+		return "", err
+	}
+	tokenString, err := token.SignedString(result)
 	if err != nil {
 		return "", err
 	}
@@ -26,7 +38,11 @@ func CreateToken(username string) (string, error) {
 
 func VerifyToken(tokenString string) error {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-		return secretKey, nil
+		result, err := getSecretKey()
+		if err != nil {
+			return "", err
+		}
+		return result, nil
 	})
 
 	if err != nil {

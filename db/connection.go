@@ -15,9 +15,6 @@ func Conn() (*sql.DB, error) {
 	if err := godotenv.Load("../../.env"); err != nil {
 		return nil, err
 	}
-	log.Println(os.Getenv("DBUSER"))
-	log.Println(os.Getenv("DBPASS"))
-	log.Println(os.Getenv("DBNAME"))
 
 	cfg := mysql.NewConfig()
 	cfg.User = os.Getenv("DBUSER")

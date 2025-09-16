@@ -8,6 +8,8 @@ type LoginRequest struct {
 }
 
 type LoginResponseSucces struct {
+	Email   string
+	Token   string
 	Message string
 }
 

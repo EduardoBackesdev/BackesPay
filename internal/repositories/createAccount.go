@@ -30,7 +30,7 @@ func CreateAccount(data AccountRequest) (AccountResponseSuccess, error) {
 		return AccountResponseSuccess{}, err
 	}
 
-	_, err = db.Exec("INSERT INTO accounts (status, email, password, , name, id_group, image) VALUES (?,?,?,?,?,?)",
+	_, err = db.Exec("INSERT INTO accounts (status, email, password, name, id_group, image) VALUES (?,?,?,?,?,?)",
 		1, data.Email, password, data.Name, 2, "no_image")
 
 	if err != nil {
