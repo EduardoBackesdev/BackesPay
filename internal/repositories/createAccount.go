@@ -15,8 +15,10 @@ type AccountResponseSuccess struct {
 	Message string
 }
 
-// Fazer logica pra salvar imagem localmente
-// Referente ao usuario
+// Fazer logica pra salvar imagem localmente referente ao usuario
+// Fazer Password minimo 8 caracteres e required
+// Fazer Email required
+// Fazer Name required
 
 func CreateAccount(data AccountRequest) (AccountResponseSuccess, error) {
 
@@ -24,20 +26,31 @@ func CreateAccount(data AccountRequest) (AccountResponseSuccess, error) {
 	if err != nil {
 		return AccountResponseSuccess{}, err
 	}
+	defer db.Close()
 
 	password, err := lib.HashPassword(data.Password)
 	if err != nil {
 		return AccountResponseSuccess{}, err
 	}
 
-	_, err = db.Exec("INSERT INTO accounts (status, email, password, name, id_group, image) VALUES (?,?,?,?,?,?)",
+	r, er1 := db.Exec("INSERT INTO accounts (status, email, password, name, id_group, image) VALUES (?,?,?,?,?,?)",
 		1, data.Email, password, data.Name, 2, "no_image")
 
-	if err != nil {
-		return AccountResponseSuccess{}, err
+	if er1 != nil {
+		return AccountResponseSuccess{}, er1
 	}
 
-	defer db.Close()
+	a, b := r.LastInsertId()
+	if b != nil {
+		return AccountResponseSuccess{}, b
+	}
+
+	_, er2 := db.Exec("INSERT INTO account_balance (account_id, balance) VALUES (?,?)", a, 0)
+
+	if er2 != nil {
+		return AccountResponseSuccess{}, er2
+	}
+
 	return AccountResponseSuccess{Message: "Conta criada com Sucesso"}, nil
 
 }

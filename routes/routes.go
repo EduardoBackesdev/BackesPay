@@ -18,6 +18,9 @@ func Router() *gin.Engine {
 	// Auth
 	auth := r.Group("/auth")
 	auth.Use(lib.Auth())
+	{
+		auth.GET("/account", handlers.GetAccount)
+	}
 
 	return r
 

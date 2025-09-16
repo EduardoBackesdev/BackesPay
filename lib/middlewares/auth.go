@@ -13,7 +13,7 @@ type unauthorized struct {
 func Auth() gin.HandlerFunc {
 
 	return func(c *gin.Context) {
-		tokenString := c.Request.Header.Get("Authorization")
+		tokenString := c.GetHeader("Authorization")
 		if tokenString == "" {
 			c.JSON(401, unauthorized{Message: "Token não enviado!"})
 			c.Abort()
