@@ -1,8 +1,8 @@
 package repositories
 
 import (
-	"database/sql"
 	"main/db"
+	lib "main/lib/hash"
 )
 
 type AccountRequest struct {
@@ -12,13 +12,26 @@ type AccountRequest struct {
 	Name     string `json:"name"`
 }
 
-func CreateAccount(data AccountRequest) (*sql.DB, error) {
+type AccountRepositorieSuccess struct {
+	Message string
+}
+
+func CreateAccount(data AccountRequest) (AccountRepositorieSuccess, error) {
 
 	db, err := db.Conn()
 	if err != nil {
-		return nil, err
+		return AccountRepositorieSuccess{}, err
 	}
 
-	result, err := db.Exec("INSERT INTO accounts (status, login, password, email, name, image) VALUES (?,?,?,?,?,?)")
+	password, _ := lib.HashPassword(data.Password)
+
+	_, err = db.Exec("INSERT INTO accounts (status, login, password, email, name, image) VALUES (?,?,?,?,?,?)",
+		1, data.Login, password, data.Email, data.Name, "no_image")
+
+	if err != nil {
+		return AccountRepositorieSuccess{}, err
+	}
+
+	return AccountRepositorieSuccess{Message: "Conta criada com Sucesso"}, nil
 
 }

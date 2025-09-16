@@ -9,7 +9,7 @@ import (
 func Router() *gin.Engine {
 
 	r := gin.Default()
-	r.GET("/create", handlers.CreateAccount)
+	r.POST("/create", handlers.CreateAccount)
 	return r
 
 }

@@ -24,12 +24,13 @@ func CreateAccount(r *gin.Context) {
 		return
 	}
 
-	if err := services.CreateAccount(data); err != nil {
+	result, err := services.CreateAccount(data)
+	if err != nil {
 		r.JSON(400, accountResponseError{Error: err.Error()})
 		return
 	}
 
-	r.JSON(200, accountResponseSuccess{Message: "Conta criada com sucesso!"})
+	r.JSON(200, accountResponseSuccess{Message: result.Message})
 	return
 
 }
