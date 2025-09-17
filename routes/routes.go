@@ -20,7 +20,11 @@ func Router() *gin.Engine {
 	auth.Use(lib.Auth())
 	{
 		auth.GET("/account", handlers.GetAccount)
-		auth.POST("/debt", handlers.Bex)
+		bex := auth.Group("/debt")
+		{
+			bex.POST("/verify_email", handlers.EmailBex)
+			bex.POST("bex", handlers.Bex)
+		}
 	}
 
 	return r
