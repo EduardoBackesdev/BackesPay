@@ -6,31 +6,31 @@ import (
 	"github.com/shopspring/decimal"
 )
 
-type BexRequest struct {
+type BixRequest struct {
 	Id           int
 	Email_client string
 	Balance      decimal.Decimal
 }
 
-type BexSendRequest struct {
+type BixSendRequest struct {
 	Id           int
 	Email_client string
 	Balance_send decimal.Decimal
 }
 
-type BexResponseSucces struct {
+type BixResponseSucces struct {
 	Message string
 }
 
-type BexResponseError struct {
+type BixResponseError struct {
 	Message string
 }
 
-func Bex(data BexSendRequest) (BexResponseSucces, error) {
+func Bix(data BixSendRequest) (BixResponseSucces, error) {
 
 	db, err := db.Conn()
 	if err != nil {
-		return BexResponseSucces{}, err
+		return BixResponseSucces{}, err
 	}
 
 	_, err_exec := db.Exec(`UPDATE account_balance ab
@@ -39,9 +39,9 @@ func Bex(data BexSendRequest) (BexResponseSucces, error) {
 	WHERE acc.email = ? `, data.Balance_send, data.Email_client)
 
 	if err_exec != nil {
-		return BexResponseSucces{}, err_exec
+		return BixResponseSucces{}, err_exec
 	}
 
-	return BexResponseSucces{"Bex send with success to account: " + data.Email_client}, nil
+	return BixResponseSucces{"Bex send with success to account: " + data.Email_client}, nil
 
 }

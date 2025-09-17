@@ -6,40 +6,40 @@ import (
 	"main/db"
 )
 
-type EmailBexStruct struct {
+type EmailBixStruct struct {
 	Name  string
 	Email string
 }
 
-type EmailBexRequest struct {
+type EmailBixRequest struct {
 	Email string
 }
 
-type EmailBexResponseSuccess struct {
+type EmailBixResponseSuccess struct {
 	Name    string
 	Email   string
 	Message string
 }
 
-type EmailBexResponseError struct {
+type EmailBixResponseError struct {
 	Message string
 }
 
-func EmailBex(data EmailBexRequest) (EmailBexStruct, error) {
+func EmailBix(data EmailBixRequest) (EmailBixStruct, error) {
 
-	var a EmailBexStruct
+	var a EmailBixStruct
 
 	db, err := db.Conn()
 	if err != nil {
-		return EmailBexStruct{}, err
+		return EmailBixStruct{}, err
 	}
 
 	row := db.QueryRow("SELECT email, name FROM accounts where email = ?", data.Email)
 	if errRow := row.Scan(&a.Email, &a.Name); errRow != nil {
 		if errRow == sql.ErrNoRows {
-			return EmailBexStruct{}, errRow
+			return EmailBixStruct{}, errRow
 		}
-		return EmailBexStruct{}, errors.New("Erro ao ler query!")
+		return EmailBixStruct{}, errors.New("Erro ao ler query!")
 	}
 
 	return a, nil

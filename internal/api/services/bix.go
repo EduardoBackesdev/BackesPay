@@ -7,7 +7,7 @@ import (
 	"github.com/shopspring/decimal"
 )
 
-func Bex(data repositories.BexRequest) (repositories.BexResponseSucces, error) {
+func Bix(data repositories.BixRequest) (repositories.BixResponseSucces, error) {
 
 	x := repositories.GetAccountRequest{
 		Id: data.Id,
@@ -15,24 +15,24 @@ func Bex(data repositories.BexRequest) (repositories.BexResponseSucces, error) {
 
 	result, err := repositories.GetAccount(x)
 	if err != nil {
-		return repositories.BexResponseSucces{}, err
+		return repositories.BixResponseSucces{}, err
 	}
 
 	if result.Balance.Sub(data.Balance).Cmp(decimal.NewFromInt(0)) < 0 {
-		return repositories.BexResponseSucces{}, errors.New("Money insufficient to send Bex")
+		return repositories.BixResponseSucces{}, errors.New("Money insufficient to send Bex")
 	}
 
-	balanceSend := repositories.BexSendRequest{
+	balanceSend := repositories.BixSendRequest{
 		Id:           data.Id,
 		Email_client: data.Email_client,
 		Balance_send: result.Balance.Sub(data.Balance),
 	}
 
-	bex_result, err_bex := repositories.Bex(balanceSend)
-	if err_bex != nil {
-		return repositories.BexResponseSucces{}, err_bex
+	bix_result, err_bix := repositories.Bix(balanceSend)
+	if err_bix != nil {
+		return repositories.BixResponseSucces{}, err_bix
 	}
 
-	return bex_result, nil
+	return bix_result, nil
 
 }

@@ -7,18 +7,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func EmailBex(r *gin.Context) {
+func EmailBix(r *gin.Context) {
 
-	var a repositories.EmailBexRequest
+	var a repositories.EmailBixRequest
 
 	if err := r.ShouldBindJSON(&a); err != nil {
 		r.JSON(400, repositories.AccountResponseError{Error: err.Error()})
 		return
 	}
 
-	result, err := services.EmailBex(a)
+	result, err := services.EmailBix(a)
 	if err != nil {
-		r.JSON(400, repositories.EmailBexResponseError{Message: err.Error()})
+		r.JSON(400, repositories.EmailBixResponseError{Message: err.Error()})
 		return
 	}
 

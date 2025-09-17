@@ -7,18 +7,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Bex(r *gin.Context) {
+func Bix(r *gin.Context) {
 
-	var a repositories.BexRequest
+	var a repositories.BixRequest
 
 	if err := r.ShouldBindJSON(&a); err != nil {
-		r.JSON(400, repositories.BexResponseError{Message: err.Error()})
+		r.JSON(400, repositories.BixResponseError{Message: err.Error()})
 		return
 	}
 
-	result, err_service := services.Bex(a)
+	result, err_service := services.Bix(a)
 	if err_service != nil {
-		r.JSON(400, repositories.BexResponseError{Message: err_service.Error()})
+		r.JSON(400, repositories.BixResponseError{Message: err_service.Error()})
 		return
 	}
 

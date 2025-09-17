@@ -4,14 +4,14 @@ import (
 	"main/internal/repositories"
 )
 
-func EmailBex(data repositories.EmailBexRequest) (repositories.EmailBexResponseSuccess, error) {
+func EmailBix(data repositories.EmailBixRequest) (repositories.EmailBixResponseSuccess, error) {
 
-	result, err := repositories.EmailBex(data)
+	result, err := repositories.EmailBix(data)
 	if err != nil {
-		return repositories.EmailBexResponseSuccess{}, err
+		return repositories.EmailBixResponseSuccess{}, err
 	}
 
-	a := repositories.EmailBexResponseSuccess{
+	a := repositories.EmailBixResponseSuccess{
 		Name:    result.Name,
 		Email:   result.Email,
 		Message: "Email valid!",
