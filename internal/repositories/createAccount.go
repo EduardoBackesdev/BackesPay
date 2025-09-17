@@ -11,6 +11,9 @@ type AccountRequest struct {
 	Name     string `json:"name"`
 }
 
+type AccountResponseError struct {
+	Error error
+}
 type AccountResponseSuccess struct {
 	Message string
 }

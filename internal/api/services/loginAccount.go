@@ -13,19 +13,20 @@ func LoginAccount(data repositories.LoginRequest) (repositories.LoginResponseSuc
 		return repositories.LoginResponseSucces{}, err
 	}
 
-	_, err = hash.CheckPassword(result[0].Password, data.Password)
+	_, err = hash.CheckPassword(result.Password, data.Password)
 	if err != nil {
 		return repositories.LoginResponseSucces{}, err
 	}
 
-	token, errToken := lib.CreateToken(result[0].Email)
+	token, errToken := lib.CreateToken(result.Email)
 	if errToken != nil {
 		return repositories.LoginResponseSucces{}, errToken
 	}
 
 	return repositories.LoginResponseSucces{
+		Id:      result.Id,
 		Message: "Login efetuado com sucesso",
-		Email:   result[0].Email,
+		Email:   result.Email,
 		Token:   token,
 	}, nil
 

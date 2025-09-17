@@ -2,37 +2,36 @@ package repositories
 
 import "main/db"
 
+type query struct {
+	Id       int
+	Email    string
+	Password string
+}
 type LoginRequest struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
 type LoginResponseSucces struct {
+	Id      int
 	Email   string
 	Token   string
 	Message string
 }
 
-func LoginAccount(data LoginRequest) ([]LoginRequest, error) {
+func LoginAccount(data LoginRequest) (query, error) {
 
-	var a []LoginRequest
+	var a query
 
 	db, err := db.Conn()
 	if err != nil {
-		return nil, err
+		return query{}, err
 	}
 
-	rows, err := db.Query("SELECT email, password from accounts where email = ?", data.Email)
-	if err != nil {
-		return nil, err
-	}
+	row := db.QueryRow("SELECT id, email, password from accounts where email = ?", data.Email)
 
-	for rows.Next() {
-		var b LoginRequest
-		if err := rows.Scan(&b.Email, &b.Password); err != nil {
-			return nil, err
-		}
-		a = append(a, b)
+	if err_row := row.Scan(&a.Id, &a.Email, &a.Password); err_row != nil {
+		return query{}, err_row
 	}
 
 	defer db.Close()
