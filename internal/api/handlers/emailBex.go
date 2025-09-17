@@ -7,18 +7,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func CreateAccount(r *gin.Context) {
+func EmailBex(r *gin.Context) {
 
-	var data repositories.AccountRequest
+	var a repositories.EmailBexRequest
 
-	if err := r.ShouldBindJSON(&data); err != nil {
+	if err := r.ShouldBindJSON(&a); err != nil {
 		r.JSON(400, repositories.AccountResponseError{Error: err.Error()})
 		return
 	}
 
-	result, err := services.CreateAccount(data)
+	result, err := services.EmailBex(a)
 	if err != nil {
-		r.JSON(400, repositories.AccountResponseError{Error: err.Error()})
+		r.JSON(400, repositories.EmailBexResponseError{Message: err.Error()})
 		return
 	}
 

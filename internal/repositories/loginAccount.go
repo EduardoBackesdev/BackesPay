@@ -1,6 +1,9 @@
 package repositories
 
-import "main/db"
+import (
+	"database/sql"
+	"main/db"
+)
 
 type query struct {
 	Id       int
@@ -31,6 +34,9 @@ func LoginAccount(data LoginRequest) (query, error) {
 	row := db.QueryRow("SELECT id, email, password from accounts where email = ?", data.Email)
 
 	if err_row := row.Scan(&a.Id, &a.Email, &a.Password); err_row != nil {
+		if err_row == sql.ErrNoRows {
+			return query{}, err_row
+		}
 		return query{}, err_row
 	}
 

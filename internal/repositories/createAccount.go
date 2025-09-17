@@ -12,7 +12,7 @@ type AccountRequest struct {
 }
 
 type AccountResponseError struct {
-	Error error
+	Error string
 }
 type AccountResponseSuccess struct {
 	Message string

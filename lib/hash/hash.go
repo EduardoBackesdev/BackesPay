@@ -20,12 +20,3 @@ func CheckPassword(hash, password string) (bool, error) {
 	}
 	return true, nil
 }
-
-// func main() {
-// 	pass := "minhaSenhaSecreta"
-// 	hash, _ := HashPassword(pass)
-// 	fmt.Println("Hash:", hash)
-
-// 	fmt.Println("Senha correta?", CheckPassword(hash, pass))
-// 	fmt.Println("Senha incorreta?", CheckPassword(hash, "outraSenha"))
-// }
