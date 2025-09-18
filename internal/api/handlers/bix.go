@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"main/internal/api/services"
 	"main/internal/repositories"
 
@@ -12,13 +13,13 @@ func Bix(r *gin.Context) {
 	var a repositories.BixRequest
 
 	if err := r.ShouldBindJSON(&a); err != nil {
-		r.JSON(400, repositories.BixResponseError{Message: err.Error()})
+		r.JSON(400, fmt.Errorf("Error with JSON request: %v", err))
 		return
 	}
 
 	result, err_service := services.Bix(a)
 	if err_service != nil {
-		r.JSON(400, repositories.BixResponseError{Message: err_service.Error()})
+		r.JSON(400, fmt.Errorf("Error with bix: %v", err_service))
 		return
 	}
 

@@ -1,7 +1,7 @@
 package lib
 
 import (
-	"errors"
+	"fmt"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -9,14 +9,14 @@ import (
 func HashPassword(password string) (string, error) {
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
-		return "", errors.New("Fail Hash")
+		return "", fmt.Errorf("Fail hash: %v", err)
 	}
-	return string(hash), err
+	return string(hash), fmt.Errorf("Error with Hash: %v", err)
 }
 
 func CheckPassword(hash, password string) (bool, error) {
 	if err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password)); err != nil {
-		return false, errors.New("Invalid Password")
+		return false, fmt.Errorf("Invalid Password!")
 	}
 	return true, nil
 }

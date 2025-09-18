@@ -1,12 +1,15 @@
 package services
 
-import "main/internal/repositories"
+import (
+	"fmt"
+	"main/internal/repositories"
+)
 
 func GetAccount(data repositories.GetAccountRequest) (repositories.GetAccountResponseSuccess, error) {
 
 	result, err := repositories.GetAccount(data)
 	if err != nil {
-		return result, err
+		return result, fmt.Errorf("Error with get account: %v", err)
 	}
 
 	return result, nil

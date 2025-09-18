@@ -1,6 +1,7 @@
 package lib
 
 import (
+	"fmt"
 	lib "main/lib/jwt"
 
 	"github.com/gin-gonic/gin"
@@ -15,7 +16,7 @@ func Auth() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		tokenString := c.GetHeader("Authorization")
 		if tokenString == "" {
-			c.JSON(401, unauthorized{Message: "Token não enviado!"})
+			c.JSON(401, fmt.Errorf("No Token"))
 			c.Abort()
 			return
 		}
@@ -23,7 +24,7 @@ func Auth() gin.HandlerFunc {
 
 		err := lib.VerifyToken(tokenString)
 		if err != nil {
-			c.JSON(401, unauthorized{Message: "Invalid token"})
+			c.JSON(401, fmt.Errorf("Invalid Token"))
 			c.Abort()
 			return
 		}

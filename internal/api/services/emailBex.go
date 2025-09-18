@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"main/internal/repositories"
 )
 
@@ -8,7 +9,7 @@ func EmailBix(data repositories.EmailBixRequest) (repositories.EmailBixResponseS
 
 	result, err := repositories.EmailBix(data)
 	if err != nil {
-		return repositories.EmailBixResponseSuccess{}, err
+		return repositories.EmailBixResponseSuccess{}, fmt.Errorf("Error with verify email bix: %v", err)
 	}
 
 	a := repositories.EmailBixResponseSuccess{

@@ -1,6 +1,8 @@
 package repositories
 
 import (
+	"database/sql"
+	"fmt"
 	"main/db"
 
 	"github.com/shopspring/decimal"
@@ -30,7 +32,7 @@ func GetAccount(data GetAccountRequest) (GetAccountResponseSuccess, error) {
 
 	db, err := db.Conn()
 	if err != nil {
-		return GetAccountResponseSuccess{}, err
+		return GetAccountResponseSuccess{}, fmt.Errorf("Error with connection: %v", err)
 	}
 
 	row := db.QueryRow(`SELECT acc.id, acc.email, acc.name, ab.balance 
@@ -38,7 +40,11 @@ func GetAccount(data GetAccountRequest) (GetAccountResponseSuccess, error) {
 	inner join account_balance ab on (ab.account_id = acc.id)
 	where acc.id = ?`, data.Id)
 	if errRow := row.Scan(&a.Id, &a.Email, &a.Name, &a.Balance); errRow != nil {
-		return GetAccountResponseSuccess{}, errRow
+		if errRow == sql.ErrNoRows {
+			return GetAccountResponseSuccess{}, fmt.Errorf("Error no rows to scan: %v", errRow)
+		}
+
+		return GetAccountResponseSuccess{}, fmt.Errorf("Error with scan row: %v", errRow)
 	}
 
 	defer db.Close()

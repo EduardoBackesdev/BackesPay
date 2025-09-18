@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"fmt"
 	"main/db"
 
 	"github.com/shopspring/decimal"
@@ -30,7 +31,7 @@ func Bix(data BixSendRequest) (BixResponseSucces, error) {
 
 	db, err := db.Conn()
 	if err != nil {
-		return BixResponseSucces{}, err
+		return BixResponseSucces{}, fmt.Errorf("Error with connection: %v", err)
 	}
 
 	_, err_exec := db.Exec(`UPDATE account_balance ab
@@ -39,7 +40,7 @@ func Bix(data BixSendRequest) (BixResponseSucces, error) {
 	WHERE acc.email = ? `, data.Balance_send, data.Email_client)
 
 	if err_exec != nil {
-		return BixResponseSucces{}, err_exec
+		return BixResponseSucces{}, fmt.Errorf("Error with exec query: %v", err_exec)
 	}
 
 	return BixResponseSucces{"Bex send with success to account: " + data.Email_client}, nil

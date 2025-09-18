@@ -2,9 +2,7 @@ package db
 
 import (
 	"database/sql"
-	"errors"
 	"fmt"
-	"log"
 	"os"
 
 	"github.com/go-sql-driver/mysql"
@@ -26,12 +24,12 @@ func Conn() (*sql.DB, error) {
 	// Get a database handle.
 	db, err := sql.Open("mysql", cfg.FormatDSN())
 	if err != nil {
-		return nil, errors.New("Falha ao abrir conexão!")
+		return nil, fmt.Errorf("Fail to open connection: %v", err)
 	}
 
 	pingErr := db.Ping()
 	if pingErr != nil {
-		log.Fatal(pingErr)
+		return nil, fmt.Errorf("Fail to ping connection: %v", pingErr)
 	}
 	fmt.Println("Connected!")
 	return db, nil

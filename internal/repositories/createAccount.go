@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"fmt"
 	"main/db"
 	lib "main/lib/hash"
 )
@@ -27,7 +28,7 @@ func CreateAccount(data AccountRequest) (AccountResponseSuccess, error) {
 
 	db, err := db.Conn()
 	if err != nil {
-		return AccountResponseSuccess{}, err
+		return AccountResponseSuccess{}, fmt.Errorf("Error with connection: %v", err)
 	}
 	defer db.Close()
 
@@ -40,18 +41,18 @@ func CreateAccount(data AccountRequest) (AccountResponseSuccess, error) {
 		1, data.Email, password, data.Name, 2, "no_image")
 
 	if er1 != nil {
-		return AccountResponseSuccess{}, er1
+		return AccountResponseSuccess{}, fmt.Errorf("Error with exec query: %v", er1)
 	}
 
 	a, b := r.LastInsertId()
 	if b != nil {
-		return AccountResponseSuccess{}, b
+		return AccountResponseSuccess{}, fmt.Errorf("Error with get last id: %v", b)
 	}
 
 	_, er2 := db.Exec("INSERT INTO account_balance (account_id, balance) VALUES (?,?)", a, 0)
 
 	if er2 != nil {
-		return AccountResponseSuccess{}, er2
+		return AccountResponseSuccess{}, fmt.Errorf("Error with exec query: %v", er2)
 	}
 
 	return AccountResponseSuccess{Message: "Conta criada com Sucesso"}, nil
