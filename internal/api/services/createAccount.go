@@ -9,7 +9,7 @@ func CreateAccount(data repositories.AccountRequest) (repositories.AccountRespon
 
 	result, err := repositories.CreateAccount(data)
 	if err != nil {
-		return repositories.AccountResponseSuccess{}, fmt.Errorf("Error with create account: %v", err)
+		return repositories.AccountResponseSuccess{}, fmt.Errorf("Error with create account: %w", err)
 	}
 
 	return result, nil

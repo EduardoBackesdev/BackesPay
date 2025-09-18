@@ -13,13 +13,13 @@ func Bix(r *gin.Context) {
 	var a repositories.BixRequest
 
 	if err := r.ShouldBindJSON(&a); err != nil {
-		r.JSON(400, fmt.Errorf("Error with JSON request: %v", err))
+		r.JSON(400, ErrorResponse{Message: fmt.Sprintf("Error with login account: %v", err)})
 		return
 	}
 
 	result, err_service := services.Bix(a)
 	if err_service != nil {
-		r.JSON(400, fmt.Errorf("Error with bix: %v", err_service))
+		r.JSON(400, ErrorResponse{Message: fmt.Sprintf("Error with login account: %v", err_service)})
 		return
 	}
 

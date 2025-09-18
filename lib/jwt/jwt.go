@@ -11,7 +11,7 @@ import (
 
 func getSecretKey() ([]byte, error) {
 	if err := godotenv.Load("../../.env"); err != nil {
-		return nil, fmt.Errorf("Error with secret key: %v", err)
+		return nil, fmt.Errorf("Error with secret key: %w", err)
 	}
 	var secret = []byte(os.Getenv("JWT"))
 	return secret, nil
@@ -25,11 +25,11 @@ func CreateToken(username string) (string, error) {
 		})
 	result, err := getSecretKey()
 	if err != nil {
-		return "", fmt.Errorf("Error with get secrect key: %v", err)
+		return "", fmt.Errorf("Error with get secrect key: %w", err)
 	}
 	tokenString, err := token.SignedString(result)
 	if err != nil {
-		return "", fmt.Errorf("Error with signed key jwt: %v", err)
+		return "", fmt.Errorf("Error with signed key jwt: %w", err)
 	}
 
 	return tokenString, nil
@@ -39,13 +39,13 @@ func VerifyToken(tokenString string) error {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		result, err := getSecretKey()
 		if err != nil {
-			return "", fmt.Errorf("Error with get secrect key: %v", err)
+			return "", fmt.Errorf("Error with get secrect key: %w", err)
 		}
 		return result, nil
 	})
 
 	if err != nil {
-		return fmt.Errorf("Error with parse jwt: %v", err)
+		return fmt.Errorf("Error with parse jwt: %w", err)
 	}
 
 	if !token.Valid {

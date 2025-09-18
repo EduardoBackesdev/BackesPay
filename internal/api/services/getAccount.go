@@ -9,7 +9,7 @@ func GetAccount(data repositories.GetAccountRequest) (repositories.GetAccountRes
 
 	result, err := repositories.GetAccount(data)
 	if err != nil {
-		return result, fmt.Errorf("Error with get account: %v", err)
+		return result, fmt.Errorf("Error with get account: %w", err)
 	}
 
 	return result, nil

@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type loginErrorResponse struct {
+type ErrorResponse struct {
 	Message string
 }
 
@@ -16,13 +16,13 @@ func LoginAccount(c *gin.Context) {
 	var data repositories.LoginRequest
 
 	if err := c.ShouldBindJSON(&data); err != nil {
-		c.JSON(400, fmt.Errorf("Error with JSON request: %v", err))
+		c.JSON(400, gin.H{"Message": err})
 		return
 	}
 
 	result, err := services.LoginAccount(data)
 	if err != nil {
-		c.JSON(400, fmt.Errorf("Error with login account: %v", err))
+		c.JSON(400, ErrorResponse{Message: fmt.Sprintf("Error with login account: %v", err)})
 		return
 	}
 

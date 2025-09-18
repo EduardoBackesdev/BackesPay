@@ -13,13 +13,13 @@ func EmailBix(r *gin.Context) {
 	var a repositories.EmailBixRequest
 
 	if err := r.ShouldBindJSON(&a); err != nil {
-		r.JSON(400, fmt.Errorf("Error with JSON request: %v", err))
+		r.JSON(400, ErrorResponse{Message: fmt.Sprintf("Error with login account: %v", err)})
 		return
 	}
 
 	result, err := services.EmailBix(a)
 	if err != nil {
-		r.JSON(400, fmt.Errorf("Error with verify email bix: %v", err))
+		r.JSON(400, ErrorResponse{Message: fmt.Sprintf("Error with login account: %v", err)})
 		return
 	}
 

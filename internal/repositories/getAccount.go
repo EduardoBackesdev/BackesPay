@@ -32,7 +32,7 @@ func GetAccount(data GetAccountRequest) (GetAccountResponseSuccess, error) {
 
 	db, err := db.Conn()
 	if err != nil {
-		return GetAccountResponseSuccess{}, fmt.Errorf("Error with connection: %v", err)
+		return GetAccountResponseSuccess{}, fmt.Errorf("Error with connection: %w", err)
 	}
 
 	row := db.QueryRow(`SELECT acc.id, acc.email, acc.name, ab.balance 
@@ -41,10 +41,10 @@ func GetAccount(data GetAccountRequest) (GetAccountResponseSuccess, error) {
 	where acc.id = ?`, data.Id)
 	if errRow := row.Scan(&a.Id, &a.Email, &a.Name, &a.Balance); errRow != nil {
 		if errRow == sql.ErrNoRows {
-			return GetAccountResponseSuccess{}, fmt.Errorf("Error no rows to scan: %v", errRow)
+			return GetAccountResponseSuccess{}, fmt.Errorf("Error no rows to scan: %w", errRow)
 		}
 
-		return GetAccountResponseSuccess{}, fmt.Errorf("Error with scan row: %v", errRow)
+		return GetAccountResponseSuccess{}, fmt.Errorf("Error with scan row: %w", errRow)
 	}
 
 	defer db.Close()

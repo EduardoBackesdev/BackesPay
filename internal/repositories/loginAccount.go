@@ -29,16 +29,16 @@ func LoginAccount(data LoginRequest) (query, error) {
 
 	db, err := db.Conn()
 	if err != nil {
-		return query{}, fmt.Errorf("Error with connection: %v", err)
+		return query{}, fmt.Errorf("Error with connection: %w", err)
 	}
 
 	row := db.QueryRow("SELECT id, email, password from accounts where email = ?", data.Email)
 
 	if err_row := row.Scan(&a.Id, &a.Email, &a.Password); err_row != nil {
 		if err_row == sql.ErrNoRows {
-			return query{}, fmt.Errorf("Error no rows to scan: %v", err_row)
+			return query{}, fmt.Errorf("Error no rows to scan: %w", err_row)
 		}
-		return query{}, fmt.Errorf("Error with scan row: %v", err_row)
+		return query{}, fmt.Errorf("Error with scan row: %w", err_row)
 	}
 
 	defer db.Close()

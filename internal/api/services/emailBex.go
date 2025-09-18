@@ -9,7 +9,7 @@ func EmailBix(data repositories.EmailBixRequest) (repositories.EmailBixResponseS
 
 	result, err := repositories.EmailBix(data)
 	if err != nil {
-		return repositories.EmailBixResponseSuccess{}, fmt.Errorf("Error with verify email bix: %v", err)
+		return repositories.EmailBixResponseSuccess{}, fmt.Errorf("Error with verify email bix: %w", err)
 	}
 
 	a := repositories.EmailBixResponseSuccess{

@@ -13,13 +13,13 @@ func CreateAccount(r *gin.Context) {
 	var data repositories.AccountRequest
 
 	if err := r.ShouldBindJSON(&data); err != nil {
-		r.JSON(400, fmt.Errorf("Error with JSON request: %v", err))
+		r.JSON(400, ErrorResponse{Message: fmt.Sprintf("Error with login account: %v", err)})
 		return
 	}
 
 	result, err := services.CreateAccount(data)
 	if err != nil {
-		r.JSON(400, fmt.Errorf("Error with service create account: %v", err))
+		r.JSON(400, ErrorResponse{Message: fmt.Sprintf("Error with login account: %v", err)})
 		return
 	}
 

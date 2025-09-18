@@ -9,9 +9,9 @@ import (
 func HashPassword(password string) (string, error) {
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
-		return "", fmt.Errorf("Fail hash: %v", err)
+		return "", fmt.Errorf("Fail hash: %w", err)
 	}
-	return string(hash), fmt.Errorf("Error with Hash: %v", err)
+	return string(hash), nil
 }
 
 func CheckPassword(hash, password string) (bool, error) {

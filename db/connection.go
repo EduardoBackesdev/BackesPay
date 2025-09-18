@@ -24,12 +24,12 @@ func Conn() (*sql.DB, error) {
 	// Get a database handle.
 	db, err := sql.Open("mysql", cfg.FormatDSN())
 	if err != nil {
-		return nil, fmt.Errorf("Fail to open connection: %v", err)
+		return nil, fmt.Errorf("Fail to open connection: %w", err)
 	}
 
 	pingErr := db.Ping()
 	if pingErr != nil {
-		return nil, fmt.Errorf("Fail to ping connection: %v", pingErr)
+		return nil, fmt.Errorf("Fail to ping connection: %w", pingErr)
 	}
 	fmt.Println("Connected!")
 	return db, nil

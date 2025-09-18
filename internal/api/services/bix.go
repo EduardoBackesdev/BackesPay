@@ -15,7 +15,7 @@ func Bix(data repositories.BixRequest) (repositories.BixResponseSucces, error) {
 
 	result, err := repositories.GetAccount(x)
 	if err != nil {
-		return repositories.BixResponseSucces{}, fmt.Errorf("Error with get account: %v", err)
+		return repositories.BixResponseSucces{}, fmt.Errorf("Error with get account: %w", err)
 	}
 
 	if result.Balance.Sub(data.Balance).Cmp(decimal.NewFromInt(0)) < 0 {
@@ -30,7 +30,7 @@ func Bix(data repositories.BixRequest) (repositories.BixResponseSucces, error) {
 
 	bix_result, err_bix := repositories.Bix(balanceSend)
 	if err_bix != nil {
-		return repositories.BixResponseSucces{}, fmt.Errorf("Error with send bix: %v", err_bix)
+		return repositories.BixResponseSucces{}, fmt.Errorf("Error with send bix: %w", err_bix)
 	}
 
 	return bix_result, nil

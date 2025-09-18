@@ -1,7 +1,9 @@
 package lib
 
-import "fmt"
+import (
+	"main/internal/repositories"
+)
 
-func Routine_bed() {
-	fmt.Print("Minha goroutine")
+func Routine_bed(data repositories.BedRequest) {
+
 }

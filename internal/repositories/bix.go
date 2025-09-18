@@ -23,15 +23,11 @@ type BixResponseSucces struct {
 	Message string
 }
 
-type BixResponseError struct {
-	Message string
-}
-
 func Bix(data BixSendRequest) (BixResponseSucces, error) {
 
 	db, err := db.Conn()
 	if err != nil {
-		return BixResponseSucces{}, fmt.Errorf("Error with connection: %v", err)
+		return BixResponseSucces{}, fmt.Errorf("Error with connection: %w", err)
 	}
 
 	_, err_exec := db.Exec(`UPDATE account_balance ab
@@ -40,7 +36,7 @@ func Bix(data BixSendRequest) (BixResponseSucces, error) {
 	WHERE acc.email = ? `, data.Balance_send, data.Email_client)
 
 	if err_exec != nil {
-		return BixResponseSucces{}, fmt.Errorf("Error with exec query: %v", err_exec)
+		return BixResponseSucces{}, fmt.Errorf("Error with exec query: %w", err_exec)
 	}
 
 	return BixResponseSucces{"Bex send with success to account: " + data.Email_client}, nil
