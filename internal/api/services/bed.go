@@ -2,7 +2,7 @@ package services
 
 import lib "main/lib/goroutines"
 
-func Bid() {
+func Bed() {
 
 	go lib.Routine_bed()
 
