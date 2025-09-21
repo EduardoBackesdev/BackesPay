@@ -16,6 +16,8 @@ func Routine_bed(data repositories.BedRequest) {
 		weekday := now.Weekday()
 
 		if weekday >= time.Monday && weekday <= time.Friday && now.After(start) && now.Before(end) {
+			// aqui vai chamar o repositorie q vai fazer a logica de atualizar o balance das contas
+			// e aqui a logica que vai mandar a notificacao pro cliente
 			break
 		}
 
