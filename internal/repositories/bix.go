@@ -8,9 +8,9 @@ import (
 )
 
 type BixRequest struct {
-	Id           int
-	Email_client string
-	Balance      decimal.Decimal
+	Id           int             `json:"id"`
+	Email_client string          `json:"email_client"`
+	Balance      decimal.Decimal `json:"balance"`
 }
 
 type BixSendRequest struct {
@@ -28,6 +28,15 @@ func Bix(data BixSendRequest) (BixResponseSucces, error) {
 	db, err := db.Conn()
 	if err != nil {
 		return BixResponseSucces{}, fmt.Errorf("Error with connection: %w", err)
+	}
+
+	_, err_exec_2 := db.Exec(`UPDATE account_balance ab
+	INNER JOIN accounts acc ON ab.account_id = acc.id
+	SET ab.balance = ab.balance - ?
+	WHERE acc.id = ? `, data.Id)
+
+	if err_exec_2 != nil {
+		return BixResponseSucces{}, fmt.Errorf("Error with exec query: %w", err_exec_2)
 	}
 
 	_, err_exec := db.Exec(`UPDATE account_balance ab

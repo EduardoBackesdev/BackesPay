@@ -3,9 +3,9 @@ package repositories
 import "github.com/shopspring/decimal"
 
 type BedRequest struct {
-	Id           int
-	Email_client string
-	Balance      decimal.Decimal
+	Id           int             `json:"id"`
+	Email_client string          `json:"email_client"`
+	Balance      decimal.Decimal `json:"balance"`
 }
 
 func Bed(data BedRequest) {

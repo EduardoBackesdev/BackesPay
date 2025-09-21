@@ -12,7 +12,7 @@ type EmailBixStruct struct {
 }
 
 type EmailBixRequest struct {
-	Email string
+	Email string `json:"email"`
 }
 
 type EmailBixResponseSuccess struct {

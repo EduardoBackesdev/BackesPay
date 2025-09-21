@@ -55,6 +55,6 @@ func CreateAccount(data AccountRequest) (AccountResponseSuccess, error) {
 		return AccountResponseSuccess{}, fmt.Errorf("Error with exec query: %w", er2)
 	}
 
-	return AccountResponseSuccess{Message: "Conta criada com Sucesso"}, nil
+	return AccountResponseSuccess{Message: "Created Account with Succefull"}, nil
 
 }

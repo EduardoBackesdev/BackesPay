@@ -11,6 +11,9 @@ func Router() *gin.Engine {
 
 	r := gin.Default()
 
+	//Websocket
+	r.GET("ws", handlers.Ws)
+
 	// Public
 	r.POST("/create_account", handlers.CreateAccount)
 	r.POST("/login", handlers.LoginAccount)
@@ -19,11 +22,12 @@ func Router() *gin.Engine {
 	auth := r.Group("/auth")
 	auth.Use(lib.Auth())
 	{
-		auth.GET("/account", handlers.GetAccount)
-		bix := auth.Group("/debt")
+		auth.GET("/", handlers.GetAccount)
+
+		bix := auth.Group("/account/debt")
 		{
 			bix.POST("/verify_email", handlers.EmailBix)
-			bix.POST("bex", handlers.Bix)
+			bix.POST("/bix", handlers.Bix)
 		}
 	}
 

@@ -13,13 +13,13 @@ func GetAccount(r *gin.Context) {
 	var a repositories.GetAccountRequest
 
 	if err := r.ShouldBindJSON(&a); err != nil {
-		r.JSON(400, ErrorResponse{Message: fmt.Sprintf("Error with login account: %v", err)})
+		r.JSON(400, ErrorResponse{Message: fmt.Sprintf("Error with request: %v", err)})
 		return
 	}
 
 	result, errGet := services.GetAccount(a)
 	if errGet != nil {
-		r.JSON(400, ErrorResponse{Message: fmt.Sprintf("Error with login account: %v", errGet)})
+		r.JSON(400, ErrorResponse{Message: fmt.Sprintf("Error with get account: %v", errGet)})
 		return
 	}
 

@@ -20,7 +20,7 @@ func Bed(data repositories.BedRequest) error {
 
 	result, err := EmailBix(a)
 	if err != nil {
-		return fmt.Errorf("Error with verify email bix: %w", err)
+		return fmt.Errorf("Error with verify email bed: %w", err)
 
 	}
 

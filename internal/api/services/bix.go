@@ -25,7 +25,7 @@ func Bix(data repositories.BixRequest) (repositories.BixResponseSucces, error) {
 	balanceSend := repositories.BixSendRequest{
 		Id:           data.Id,
 		Email_client: data.Email_client,
-		Balance_send: result.Balance.Sub(data.Balance),
+		Balance_send: data.Balance,
 	}
 
 	bix_result, err_bix := repositories.Bix(balanceSend)

@@ -23,7 +23,7 @@ type GetAccountResponseError struct {
 
 // Struct para request do metodo
 type GetAccountRequest struct {
-	Id int
+	Id int `json:"id"`
 }
 
 func GetAccount(data GetAccountRequest) (GetAccountResponseSuccess, error) {
