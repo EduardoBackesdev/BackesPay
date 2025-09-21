@@ -33,10 +33,10 @@ func Bix(data BixSendRequest) (BixResponseSucces, error) {
 	_, err_exec_2 := db.Exec(`UPDATE account_balance ab
 	INNER JOIN accounts acc ON ab.account_id = acc.id
 	SET ab.balance = ab.balance - ?
-	WHERE acc.id = ? `, data.Id)
+	WHERE acc.id = ? `, data.Balance_send, data.Id)
 
 	if err_exec_2 != nil {
-		return BixResponseSucces{}, fmt.Errorf("Error with exec query: %w", err_exec_2)
+		return BixResponseSucces{}, fmt.Errorf("Error with exec query 1: %w", err_exec_2)
 	}
 
 	_, err_exec := db.Exec(`UPDATE account_balance ab
@@ -45,9 +45,9 @@ func Bix(data BixSendRequest) (BixResponseSucces, error) {
 	WHERE acc.email = ? `, data.Balance_send, data.Email_client)
 
 	if err_exec != nil {
-		return BixResponseSucces{}, fmt.Errorf("Error with exec query: %w", err_exec)
+		return BixResponseSucces{}, fmt.Errorf("Error with exec query 2: %w", err_exec)
 	}
 
-	return BixResponseSucces{"Bex send with success to account: " + data.Email_client}, nil
+	return BixResponseSucces{"Bix send with success to account: " + data.Email_client}, nil
 
 }
