@@ -2,8 +2,13 @@ package lib
 
 import (
 	"main/internal/repositories"
+	"main/internal/ws"
 	"time"
 )
+
+type Response struct {
+	Message string
+}
 
 func Routine_bed(data repositories.BedRequest) {
 
@@ -18,10 +23,22 @@ func Routine_bed(data repositories.BedRequest) {
 		if weekday >= time.Monday && weekday <= time.Friday && now.After(start) && now.Before(end) {
 			err := repositories.Bed(data)
 			if err != nil {
-				// Manda notificacao que houve algum erro ao enviar a ted
+				ws.Mutex.Lock()
+				if conn, ok := ws.Map_clients[data.Id]; ok {
+					conn.WriteJSON(Response{
+						Message: "Bed sent fail!",
+					})
+				}
+				ws.Mutex.Unlock()
 				break
 			}
-			// Aqui a logica que vai mandar a notificacao pro cliente
+			ws.Mutex.Lock()
+			if conn, ok := ws.Map_clients[data.Id]; ok {
+				conn.WriteJSON(Response{
+					Message: "Bed sent successfully!",
+				})
+			}
+			ws.Mutex.Unlock()
 			break
 		}
 

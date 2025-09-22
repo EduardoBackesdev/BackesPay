@@ -2,7 +2,9 @@ package handlers
 
 import (
 	"fmt"
-	"sync"
+	"main/internal/ws"
+	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
@@ -11,43 +13,38 @@ import (
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
-}
-
-type wsRequest struct {
-	Id int
+	CheckOrigin:     func(r *http.Request) bool { return true },
 }
 
 type ResponseError struct {
 	Message string
 }
 
-var map_clients = make(map[int]*websocket.Conn)
-var mutex = &sync.Mutex{}
-
 func Ws(r *gin.Context) {
 
-	var a wsRequest
+	queryPa := r.Query("id")
 
-	if err := r.ShouldBindJSON(&a); err != nil {
+	id, err := strconv.Atoi(queryPa)
+
+	if err != nil {
 		r.JSON(400, ResponseError{Message: fmt.Sprintf("Error request Json: %w", err)})
 		return
 	}
 
-	id := a.Id
-
 	conn, err := upgrader.Upgrade(r.Writer, r.Request, nil)
 	if err != nil {
+		r.JSON(400, ResponseError{Message: fmt.Sprintf("Error request Json: %w", err)})
 		return
 	}
 
-	mutex.Lock()
-	map_clients[id] = conn
-	mutex.Unlock()
+	ws.Mutex.Lock()
+	ws.Map_clients[id] = conn
+	ws.Mutex.Unlock()
 
 	defer func() {
-		mutex.Lock()
-		delete(map_clients, id)
-		mutex.Unlock()
+		ws.Mutex.Lock()
+		delete(ws.Map_clients, id)
+		ws.Mutex.Unlock()
 		conn.Close()
 	}()
 
