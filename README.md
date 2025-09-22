@@ -5,7 +5,7 @@ BackesPay é um sistema de pagamentos desenvolvido em Go que demonstra o uso ava
 ## 🚀 Características Principais
 
 ### Goroutines para Processamento de Transações
-O sistema utiliza goroutines para processar pagamentos BED (Bank Electronic Debit) de forma assíncrona, permitindo:
+O sistema utiliza goroutines para processar pagamentos BED (TED) de forma assíncrona, permitindo:
 - Execução de transações em horário comercial (8h às 15h, dias úteis)
 - Processamento não-bloqueante de transações
 - Verificação contínua do horário para execução
@@ -75,17 +75,13 @@ var Mutex = &sync.Mutex{}
 ## 🚧 Próximas Implementações
 
 - **Histórico de Transações**: Sistema para rastreamento e consulta de todas as operações realizadas
-  - Log detalhado de transações
-  - Filtros por data, tipo e status
-  - Exportação de relatórios
+  - Integração de uma fila de notificações com RabbitMQ
 
 ## 💡 Objetivo do Projeto
 
-Este projeto foi desenvolvido com o propósito de aprofundar o conhecimento em:
+Este projeto foi desenvolvido com o propósito de mostrar minhas habilidades em:
 - Programação concorrente com goroutines
 - Comunicação em tempo real com WebSocket
-- Desenvolvimento de sistemas financeiros seguros
-- Arquitetura limpa e escalável em Go
 
 ---
 
