@@ -19,11 +19,6 @@ type AccountResponseSuccess struct {
 	Message string
 }
 
-// Fazer logica pra salvar imagem localmente referente ao usuario
-// Fazer Password minimo 8 caracteres e required
-// Fazer Email required
-// Fazer Name required
-
 func CreateAccount(data AccountRequest) (AccountResponseSuccess, error) {
 
 	db, err := db.Conn()
