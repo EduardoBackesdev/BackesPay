@@ -1,15 +1,15 @@
-# BackesPay - Sistema de Pagamentos com Go
+# BackesPay - Payment System with Go
 
-BackesPay é um sistema de pagamentos desenvolvido em Go que demonstra o uso avançado de goroutines e WebSocket para processamento assíncrono de transações e comunicação em tempo real.
+BackesPay is a payment system developed in Go that demonstrates the advanced use of goroutines and WebSocket for asynchronous transaction processing and real-time communication.
 
-## 🚀 Características Principais
+## 🚀 Main Features
 
-### Goroutines para Processamento de Transações
-O sistema utiliza goroutines para processar pagamentos BED (TED) de forma assíncrona, permitindo:
-- Execução de transações em horário comercial (8h às 15h, dias úteis)
-- Processamento não-bloqueante de transações
-- Verificação contínua do horário para execução
-- Notificação em tempo real do status da transação
+### Goroutines for Transaction Processing
+The system uses goroutines to process BED (TED) payments asynchronously, allowing:
+- Execution of transactions during business hours (8 AM to 3 PM, business days)
+- Non-blocking transaction processing
+- Continuous time verification for execution
+- Real-time transaction status notifications
 
 ```go
 func Routine_bed(data repositories.BedRequest) {
@@ -20,69 +20,69 @@ func Routine_bed(data repositories.BedRequest) {
 }
 ```
 
-### WebSocket para Comunicação em Tempo Real
-Implementação de WebSocket para:
-- Conexão persistente com o cliente
-- Notificações instantâneas sobre o status das transações
-- Gerenciamento de múltiplas conexões com mutex para thread safety
-- Pool de conexões para controle eficiente de recursos
+### WebSocket for Real-Time Communication
+WebSocket implementation for:
+- Persistent client connection
+- Instant notifications about transaction status
+- Management of multiple connections using mutex for thread safety
+- Connection pool for efficient resource control
 
 ```go
 var Map_clients = make(map[int]*websocket.Conn)
 var Mutex = &sync.Mutex{}
 ```
 
-## 🛠 Tecnologias Utilizadas
+## 🛠 Technologies Used
 
-- **Go** - Linguagem principal
-- **Gin** - Framework web
-- **MySQL** - Banco de dados
-- **Gorilla WebSocket** - Implementação de WebSocket
-- **JWT** - Autenticação
-- **Decimal** - Precisão em operações monetárias
+- **Go** - Main language  
+- **Gin** - Web framework  
+- **MySQL** - Database  
+- **Gorilla WebSocket** - WebSocket implementation  
+- **JWT** - Authentication  
+- **Decimal** - Precision in monetary operations  
 
-## 📊 Estrutura do Projeto
+## 📊 Project Structure
 
-- `cmd/app`: Ponto de entrada da aplicação
-- `internal/api`: Handlers e serviços da API
-- `internal/repositories`: Camada de acesso ao banco de dados
-- `internal/ws`: Gerenciamento de conexões WebSocket
-- `lib/goroutines`: Implementação de rotinas assíncronas
-- `routes`: Configuração de rotas da API
+- `cmd/app`: Application entry point  
+- `internal/api`: API handlers and services  
+- `internal/repositories`: Database access layer  
+- `internal/ws`: WebSocket connection management  
+- `lib/goroutines`: Asynchronous routine implementations  
+- `routes`: API route configuration  
 
-## 🔐 Funcionalidades
+## 🔐 Features
 
-- Criação e autenticação de contas
-- Transferências via BIX (instantâneas)
-- Transferências via BED (agendadas/horário comercial)
-- Consulta de saldo
-- Verificação de destinatário
-- Notificações em tempo real de transações
+- Account creation and authentication  
+- Transfers via **BIX** (instant)  
+- Transfers via **BED** (scheduled/business hours)  
+- Balance inquiry  
+- Recipient verification  
+- Real-time transaction notifications  
 
-## 🔄 Sistema de Transações
+## 🔄 Transaction System
 
-### BIX (Transferência Instantânea)
-- Processamento síncrono
-- Validação imediata
-- Atualização instantânea de saldo
+### BIX (Instant Transfer)
+- Synchronous processing  
+- Immediate validation  
+- Instant balance update  
 
-### BED (Transferência Agendada)
-- Processamento assíncrono via goroutines
-- Execução apenas em horário comercial
-- Notificação em tempo real via WebSocket
-- Thread-safe com uso de mutex
+### BED (Scheduled Transfer)
+- Asynchronous processing via goroutines  
+- Execution only during business hours  
+- Real-time notification via WebSocket  
+- Thread-safe using mutex  
 
-## 🚧 Próximas Implementações
+## 🚧 Upcoming Implementations
 
-- **Histórico de Transações**: Sistema para rastreamento e consulta de todas as operações realizadas
-  - Integração de uma fila de notificações com RabbitMQ
+- **Transaction History**: System for tracking and querying all completed operations  
+  - Integration of a notification queue with RabbitMQ  
 
-## 💡 Objetivo do Projeto
+## 💡 Project Purpose
 
-Este projeto foi desenvolvido com o propósito de mostrar minhas habilidades em:
-- Programação concorrente com goroutines
-- Comunicação em tempo real com WebSocket
+This project was developed with the purpose of showcasing my skills in:
+- Concurrent programming with goroutines  
+- Real-time communication with WebSocket  
 
 ---
 
-⌨️ Desenvolvido por EduardoBackesdev
+⌨️ Developed by **EduardoBackesdev**
